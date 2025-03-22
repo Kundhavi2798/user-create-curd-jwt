@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { FormsModule } from '@angular/forms'; // ✅ Import FormsModule
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
-  imports: [FormsModule], // ✅ Include FormsModule in imports array
+  imports: [FormsModule, RouterLink], // ✅ Include FormsModule in imports array
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
@@ -32,9 +32,14 @@ export class LoginComponent {
         console.log('✅ Login successful:', response);
         localStorage.setItem('token', response.token);
         localStorage.setItem('username', this.user.username);
-        this.router.navigate(['/dashboard']);
+
+        // ✅ Show success message before navigating
+        alert('🎉 Login successful! Redirecting to dashboard...');
+
+        this.router.navigate(['/dashboard']); // Redirect to dashboard
       },
       error: () => alert('❌ Invalid username or password')
     });
   }
+
 }
