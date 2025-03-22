@@ -37,7 +37,6 @@ export class RegisterComponent {
 
     const { username, email, password, confirmPassword } = this.registerForm.value;
 
-    // ✅ Check if passwords match
     if (password !== confirmPassword) {
       console.log("❌ Passwords do not match!");
       this.errorMessage = "❌ Passwords do not match!";
@@ -47,7 +46,7 @@ export class RegisterComponent {
     this.authService.register({ username, email, password, confirmPassword }).subscribe({
       next: () => {
         alert('🎉 Registration successful! Redirecting to login...');
-        this.router.navigate(['/login']); // ✅ Redirect to login after success
+        this.router.navigate(['/login']);
       },
       error: (err) => {
         this.errorMessage = err.error?.message || '❌ Registration failed!';

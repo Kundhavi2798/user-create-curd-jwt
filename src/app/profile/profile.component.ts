@@ -25,11 +25,36 @@ export class ProfileComponent implements OnInit {
   }
 
   loadProfile() {
-    this.profileService.getProfile().subscribe({
+    if (typeof window === 'undefined') {
+      console.error('❌ localStorage is not available (Running on the server).');
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+    const password = localStorage.getItem('password');
+
+    if (!token || !username || !password) {
+      console.warn('⚠️ Missing authentication details.');
+      alert('Session expired. Please log in again.');
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.profileService.getProfile(username, password).subscribe({
       next: (data) => {
-        this.user = data;
+        if (data && data.username) {
+          console.log('✅ Profile Loaded:', data);
+          this.user = data;
+        } else {
+          console.warn('⚠️ Empty or invalid profile data received.');
+          alert('Failed to load profile. Please try again.');
+        }
       },
-      error: () => alert('Failed to load profile'),
+      error: (err) => {
+        console.error('❌ Failed to load profile:', err);
+        alert('Failed to load profile. Please try again.');
+      }
     });
   }
 
