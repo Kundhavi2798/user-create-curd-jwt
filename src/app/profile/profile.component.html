@@ -1,0 +1,19 @@
+<h2>Welcome, {{ user.username }}</h2>
+
+<p><strong>Email:</strong> {{ user.email }} <button (click)="editEmail()">Edit</button></p>
+
+<div *ngIf="showEditEmail">
+  <label>New Email: <input [(ngModel)]="newEmail"></label>
+  <button (click)="saveEmail()">Save</button>
+  <button (click)="showEditEmail = false">Cancel</button>
+</div>
+
+<p><strong>Password:</strong> ******** <button (click)="editPassword()">Change</button></p>
+
+<div *ngIf="showEditPassword">
+  <label>New Password: <input [(ngModel)]="newPassword" type="password"></label>
+  <button (click)="savePassword()">Save</button>
+  <button (click)="showEditPassword = false">Cancel</button>
+</div>
+
+<button (click)="logout()">Logout</button>
