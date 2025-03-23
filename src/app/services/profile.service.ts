@@ -22,16 +22,15 @@ export class ProfileService {
     });
   }
 
-
   updateEmail(email: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/update-email`,
+    return this.http.post(`${this.apiUrl}/update-email`,
       { email },
       { headers: this.getHeaders() }
     );
   }
 
   updatePassword(password: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/update-password`,
+    return this.http.post(`${this.apiUrl}/update-password`,
       { password },
       { headers: this.getHeaders() }
     );
