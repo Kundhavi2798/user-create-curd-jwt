@@ -11,13 +11,17 @@ export class ProfileService {
   constructor(private http: HttpClient) {}
 
   getProfile(username: string, password: string): Observable<any> {
-    const payload = { username, password }; // ✅ Include username and password in the payload
+    const params = new HttpParams()
+        .set('username', username)
+        .set('password', password);
+    console.log("params", params)
 
-    return this.http.request('GET', `${this.apiUrl}/profile`, {
-      body: payload, // ✅ Workaround: Pass payload in request body (Angular allows this)
+    return this.http.get(`${this.apiUrl}/profile`, {
+      params,
       headers: this.getHeaders(),
     });
   }
+
 
   updateEmail(email: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/update-email`,
@@ -35,11 +39,11 @@ export class ProfileService {
 
   private getHeaders() {
     const token = localStorage.getItem('token');
-
+    console.log('token', token);
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
-      'Accept': 'application/json, text/plain, */*'
+      // 'Accept': 'application/json, text/plain, */*'
     });
   }
 }
